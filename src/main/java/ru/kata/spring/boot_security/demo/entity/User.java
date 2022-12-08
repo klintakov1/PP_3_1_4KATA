@@ -1,16 +1,19 @@
 package ru.kata.spring.boot_security.demo.entity;
 
-import lombok.Data;
+
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Entity
-@Data
 @Table(name = "users")
 public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -23,6 +26,8 @@ public class User implements UserDetails {
 
     @Transient
     private String passwordConfirm;
+
+
 
     @ManyToMany
     @JoinTable(name = "users_roles",
@@ -41,8 +46,19 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+        return roles.stream().map(r-> new SimpleGrantedAuthority(r.getName())).collect(Collectors.toList());
     }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -64,5 +80,8 @@ public class User implements UserDetails {
     }
 
 
+    public Collection<Role> getRoles() {
 
+        return roles;
+    }
 }
