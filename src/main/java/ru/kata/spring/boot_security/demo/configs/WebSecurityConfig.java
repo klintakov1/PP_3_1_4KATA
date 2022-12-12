@@ -43,11 +43,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-    @Bean
-public JdbcUserDetailsManager users(DataSource dataSource) {
-    JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-    return jdbcUserDetailsManager;
-}
+//    @Bean
+//public JdbcUserDetailsManager users(DataSource dataSource) {
+//    JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
+//    return jdbcUserDetailsManager;
+//}
 
     @Bean
     public PasswordEncoder passwordEncoder() {
