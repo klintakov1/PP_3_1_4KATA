@@ -1,40 +1,39 @@
-package ru.kata.spring.boot_security.demo.entity;
-
+package ru.kata.spring.boot_security_rest.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
-@Entity
 @Data
 @NoArgsConstructor
+@Entity
 @Table(name = "users")
 public class User implements UserDetails {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column
+    private Long id;
+
+    @Column(name = "Email_address")
     private String username;
-    @Column
+
+    private String firstName;
+
+    private String lastName;
+
+    private Integer age;
+
     private String password;
-    @Column
-    private String email;
-
-    @Transient
-    private String passwordConfirm;
-
 
     @ManyToMany
     @JoinTable(name = "users_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Collection<Role> roles;
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private Set<Role> roles = new java.util.LinkedHashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -61,4 +60,3 @@ public class User implements UserDetails {
         return true;
     }
 }
-

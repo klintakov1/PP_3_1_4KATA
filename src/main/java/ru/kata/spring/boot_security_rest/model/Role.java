@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.entity;
+package ru.kata.spring.boot_security_rest.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -6,19 +6,14 @@ import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 
-@Entity
 @Data
 @NoArgsConstructor
+@Entity
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    @Column
-    private String name;
+    private Long id;
 
-    @Override
-    public String getAuthority() {
-        return getName();
-    }
+    private String authority;
 }
